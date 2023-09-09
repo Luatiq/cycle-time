@@ -33,5 +33,5 @@ vendor/bin/phpstan analyse src
 ```
 PHP MD
 ```sh
-vendor/bin/phpmd src ansi codesize,unusedcode,naming
+vendor/bin/phpmd src ansi codesize,unusedcode
 ```
