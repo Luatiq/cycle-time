@@ -21,6 +21,9 @@
         "symfony/yaml": "6.3.*"
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.26",
+        "phpmd/phpmd": "^2.13",
+        "phpstan/phpstan": "^1.10",
         "symfony/maker-bundle": "^1.50"
     },
     "config": {

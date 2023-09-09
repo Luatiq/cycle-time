@@ -21,3 +21,17 @@ Run project
 ```sh
 symfony serve
 ```
+
+## Code quality tools
+PHP CS fixer
+```sh
+vendor/bin/php-cs-fixer fix src
+```
+PHPStan
+```sh
+vendor/bin/phpstan analyse src
+```
+PHP MD
+```sh
+vendor/bin/phpmd src ansi codesize,unusedcode,naming
+```
