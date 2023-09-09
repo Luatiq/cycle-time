@@ -15,7 +15,7 @@ abstract class BaseController extends AbstractController
 {
     public function getData(Request $request): ParameterBag
     {
-        if ($request->getMethod() === Request::METHOD_POST) {
+        if (Request::METHOD_POST === $request->getMethod()) {
             return new ParameterBag(
                 json_decode($request->getContent(), true)
             );
@@ -30,8 +30,7 @@ abstract class BaseController extends AbstractController
     public function serializeEntity(
         mixed $data,
         array $ignoredAttributes = []
-    ): array
-    {
+    ): array {
         $normalizers = [new ObjectNormalizer()];
         $encoders = [new JsonEncoder()];
 

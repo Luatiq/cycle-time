@@ -20,8 +20,7 @@ class UserController extends BaseController
 
     public function __construct(
         UserRepository $repository
-    )
-    {
+    ) {
         $this->repository = $repository;
     }
 
@@ -30,11 +29,10 @@ class UserController extends BaseController
      */
     #[Route('', name: '.create', methods: ['POST', 'GET'])]
     public function createUser(
-        Request                     $request,
+        Request $request,
         UserPasswordHasherInterface $passwordHasher,
-        JWTTokenManagerInterface    $JWTTokenManager
-    ): JsonResponse
-    {
+        JWTTokenManagerInterface $JWTTokenManager
+    ): JsonResponse {
         $data = $this->getData($request);
 
         if (
@@ -42,17 +40,17 @@ class UserController extends BaseController
             || !$data->has('password')
         ) {
             return new JsonResponse([
-                'message' => 'username and password are required'
+                'message' => 'username and password are required',
             ], Response::HTTP_BAD_REQUEST);
         }
 
         if (
             $this->repository->findBy([
-                'username' => $data->get('username')
+                'username' => $data->get('username'),
             ])
         ) {
             return new JsonResponse([
-                'message' => 'Username already taken'
+                'message' => 'Username already taken',
             ], Response::HTTP_CONFLICT);
         }
 
@@ -68,7 +66,7 @@ class UserController extends BaseController
         $result = $this->serializeEntity($entity, [
             'userIdentifier',
             'password',
-            'roles'
+            'roles',
         ]);
         $result['token'] = $JWTTokenManager->create($entity);
 
@@ -78,7 +76,7 @@ class UserController extends BaseController
     #[Route('', name: '.delete', methods: ['DELETE'])]
     public function deleteUser(): JsonResponse
     {
-        /** @noinspection PhpParamsInspection */
+        /* @noinspection PhpParamsInspection */
         $this->repository->remove($this->getUser(), true);
 
         return new JsonResponse(['message' => 'User deleted'], Response::HTTP_OK);
@@ -88,8 +86,7 @@ class UserController extends BaseController
     #[IsGranted('ROLE_ADMIN')]
     public function deleteUserById(
         ?User $entity
-    ): JsonResponse
-    {
+    ): JsonResponse {
         if (!$entity) {
             return new JsonResponse(['message' => 'User does not exist', Response::HTTP_NOT_FOUND]);
         }
