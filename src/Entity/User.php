@@ -20,9 +20,9 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 #[ApiResource(
     operations: [
         new Post(processor: 'App\State\UserPasswordHasher'),
-        new Get(),
-        new Delete(),
-        new Put(processor: 'App\State\UserPasswordHasher'),
+        new Get(security: "is_granted('ROLE_ADMIN') or object == user"),
+        new Delete(security: "is_granted('ROLE_ADMIN') or object == user"),
+        new Put(security: "is_granted('ROLE_ADMIN') or object == user", processor: 'App\State\UserPasswordHasher'),
     ],
     normalizationContext: [
         'groups' => ['user:read'],

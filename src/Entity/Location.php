@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\LocationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Serializer\Annotation\Ignore;
 
 // @TODO permissions
@@ -29,6 +30,7 @@ class Location
     #[Ignore]
     #[ORM\ManyToOne(inversedBy: 'locations')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Gedmo\Blameable(on: 'create')]
     private ?User $User = null;
 
     public function getId(): ?int

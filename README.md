@@ -35,3 +35,16 @@ PHP MD
 ```sh
 vendor/bin/phpmd src ansi codesize,unusedcode
 ```
+
+## Usage
+### Create user & get auth token
+```sh
+curl -X POST -H "Content-Type: application/json" -d '{"username":"username","password":"password"}' https://127.0.0.1:8000/api/users
+```
+```sh
+curl -X POST -H "Content-Type: application/json" -d '{"username":"username","password":"password"}' https://127.0.0.1:8000/api/login
+```
+### Create location
+```sh
+curl -X POST -H "Content-Type: application/json" -H "Authorization: token" -d '{"display": "name", "latitude": 0.0, "longitude": 0.0}' https://127.0.0.1:8000/api/locations
+```
