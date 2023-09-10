@@ -7,6 +7,8 @@ use App\Repository\LocationRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Serializer\Annotation\Ignore;
+use Symfony\Component\Validator\Constraints\GreaterThan;
+use Symfony\Component\Validator\Constraints\LessThan;
 
 // @TODO permissions
 #[ApiResource]
@@ -21,9 +23,15 @@ class Location
     #[ORM\Column(length: 255)]
     private ?string $display = null;
 
+    // Ensure that latitude is in NL/BE
+    #[LessThan(53.55826138253766)]
+    #[GreaterThan(49.4956686976582)]
     #[ORM\Column]
     private ?float $latitude = null;
 
+    // Ensure that longitude is in NL/BE
+    #[LessThan(7.066177562656723)]
+    #[GreaterThan(2.544808438961323)]
     #[ORM\Column]
     private ?float $longitude = null;
 
