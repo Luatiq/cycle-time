@@ -2,9 +2,13 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\LocationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Ignore;
 
+// @TODO permissions
+#[ApiResource]
 #[ORM\Entity(repositoryClass: LocationRepository::class)]
 class Location
 {
@@ -22,6 +26,7 @@ class Location
     #[ORM\Column]
     private ?float $longitude = null;
 
+    #[Ignore]
     #[ORM\ManyToOne(inversedBy: 'locations')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $User = null;
@@ -67,11 +72,13 @@ class Location
         return $this;
     }
 
+    #[Ignore]
     public function getUser(): ?User
     {
         return $this->User;
     }
 
+    #[Ignore]
     public function setUser(?User $User): static
     {
         $this->User = $User;
