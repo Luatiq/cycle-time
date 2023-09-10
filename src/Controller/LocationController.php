@@ -6,32 +6,36 @@ use App\Entity\Location;
 use App\Repository\LocationRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/api/locations', name: 'api.locations')]
+#[Route('/api/location', name: 'api.locations')]
 class LocationController extends BaseController
 {
     private LocationRepository $repository;
 
     public function __construct(
         LocationRepository $repository
-    ) {
+    )
+    {
         $this->repository = $repository;
     }
 
     #[Route('', name: '.get_all', methods: ['GET'])]
-    public function getLocations(): JsonResponse
+    public function getAll(): JsonResponse
     {
         return new JsonResponse(
             $this->serializeEntity(
                 $this->getUser()->getLocations(),
-                //                ['user'],
+                [
+                    'User',
+                ],
             )
         );
     }
 
     #[Route('', name: '.add', methods: ['POST'])]
-    public function addLocation(Request $request): JsonResponse
+    public function add(Request $request): JsonResponse
     {
         $data = $this->getData($request);
 
@@ -48,7 +52,29 @@ class LocationController extends BaseController
             $this->serializeEntity(
                 $this->getUser()->getLocations(),
                 [
-                    'locations',
+                    'User',
+                ],
+            )
+        );
+    }
+
+    #[Route('/{entity}', name: '.delete', methods: ['DELETE'])]
+    public function delete(Location $entity): JsonResponse
+    {
+        if ($entity->getUser() !== $this->getUser()) {
+            return new JsonResponse(
+                ['message' => 'You are not allowed to delete this location.'],
+                Response::HTTP_FORBIDDEN
+            );
+        }
+
+        $this->repository->remove($entity, true);
+
+        return new JsonResponse(
+            $this->serializeEntity(
+                $this->getUser()->getLocations(),
+                [
+                    'User',
                 ],
             )
         );
