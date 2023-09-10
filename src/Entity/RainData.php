@@ -22,6 +22,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: RainDataRepository::class)]
 class RainData
 {
+    // @TODO remove somehow, this is a hack to get RainData by unrelated location ID
     public string $location = '';
 
     #[Groups('rain_data:read')]
