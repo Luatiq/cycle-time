@@ -2,40 +2,25 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use ApiPlatform\Metadata\Get;
 use App\Repository\RainDataRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation\Timestampable;
-use Symfony\Component\Serializer\Annotation\Groups;
 
-#[ApiResource(
-    operations: [
-        new Get(uriTemplate: '/get-rain/{location}', uriVariables: ['location'], requirements: ['location' => '\d+'], controller: 'App\Controller\RainDataController::getForLocation', read: false),
-        new Get(uriTemplate: '/rain-data/{id}', normalizationContext: ['groups' => ['rain_data:read']], read: true),
-    ],
-    normalizationContext: [
-        'groups' => ['rain_data:read'],
-    ]
-)]
 #[ORM\Entity(repositoryClass: RainDataRepository::class)]
 class RainData
 {
     // @TODO remove somehow, this is a hack to get RainData by unrelated location ID
     public string $location = '';
 
-    #[Groups('rain_data:read')]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups('rain_data:read')]
     #[ORM\Column]
     private ?float $latitude = null;
 
-    #[Groups('rain_data:read')]
     #[ORM\Column]
     private ?float $longitude = null;
 
@@ -43,11 +28,9 @@ class RainData
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[Groups('rain_data:read')]
     #[ORM\Column(type: Types::TIME_IMMUTABLE)]
     private ?\DateTimeImmutable $time = null;
 
-    #[Groups('rain_data:read')]
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $precipitationIntensity = null;
 
@@ -114,5 +97,14 @@ class RainData
         $this->precipitationIntensity = $precipitationIntensity;
 
         return $this;
+    }
+
+    public function getPrecipitationInMillimetres(int $precipitation): string
+    {
+        if (0 === $precipitation) {
+            return '0 mm/uur';
+        }
+
+        return 10 * (($precipitation - 109) / 32).' mm/uur';
     }
 }

@@ -66,14 +66,4 @@ class BuienradarService
 
         return $result;
     }
-
-    // @TODO move to RainData.php, add to serializer
-    public function getPrecipitationInMillimetres(int $precipitation): string
-    {
-        if (0 === $precipitation) {
-            return '0 mm/uur';
-        }
-
-        return 10 * (($precipitation - 109) / 32).' mm/uur';
-    }
 }
