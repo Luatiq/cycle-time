@@ -39,6 +39,16 @@ class LocationRepository extends ServiceEntityRepository
         }
     }
 
+    public function getUniqueCoords()
+    {
+        return $this->createQueryBuilder('x')
+            ->select('x.latitude, x.longitude')
+            ->distinct()
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return Location[] Returns an array of Location objects
 //     */

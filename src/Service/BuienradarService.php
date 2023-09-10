@@ -13,6 +13,8 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class BuienradarService
 {
+    const BASE_URL = 'https://gpsgadget.buienradar.nl';
+
     private RainDataRepository $rainDataRepository;
     private HttpClientInterface $httpClient;
 
@@ -30,12 +32,12 @@ class BuienradarService
      * @throws RedirectionExceptionInterface
      * @throws ClientExceptionInterface
      */
-    public function getPrecipitation(
+    public function updatePrecipitation(
         float $latitude,
         float $longitude,
     ): ArrayCollection {
         $url = sprintf(
-            'https://gpsgadget.buienradar.nl/data/raintext?lat=%s&lon=%s',
+            self::BASE_URL.'/data/raintext?lat=%s&lon=%s',
             $latitude,
             $longitude,
         );

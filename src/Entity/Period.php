@@ -10,6 +10,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints\All;
 use Symfony\Component\Validator\Constraints\LessThanOrEqual;
 use Symfony\Component\Validator\Constraints\Positive;
+use Symfony\Component\Validator\Constraints\PositiveOrZero;
 use Symfony\Component\Validator\Constraints\Unique;
 
 #[ORM\Entity(repositoryClass: PeriodRepository::class)]
@@ -29,7 +30,7 @@ class Period
         new Positive(),
         new LessThanOrEqual(7),
     ])]
-    #[Unique()]
+    #[Unique]
     #[ORM\Column(type: Types::SIMPLE_ARRAY, nullable: true)]
     private ?array $days = null;
 
@@ -51,6 +52,11 @@ class Period
     #[ORM\ManyToOne(inversedBy: 'periods')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
+
+    #[LessThanOrEqual(6)]
+    #[PositiveOrZero]
+    #[ORM\Column(type: Types::SMALLINT)]
+    private ?int $hoursBeforeStartWarning = 0;
 
     public function getId(): ?int
     {
@@ -137,6 +143,18 @@ class Period
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getHoursBeforeStartWarning(): ?int
+    {
+        return $this->hoursBeforeStartWarning;
+    }
+
+    public function setHoursBeforeStartWarning(int $hoursBeforeStartWarning): static
+    {
+        $this->hoursBeforeStartWarning = $hoursBeforeStartWarning;
 
         return $this;
     }

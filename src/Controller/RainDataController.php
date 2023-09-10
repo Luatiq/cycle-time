@@ -33,7 +33,7 @@ class RainDataController extends AbstractController
         $latitude = $location->getLatitude();
         $longitude = $location->getLongitude();
 
-        $result = $this->buienradarService->getPrecipitation($latitude, $longitude);
+        $result = $this->buienradarService->updatePrecipitation($latitude, $longitude);
 
         // @TODO return a proper response - hydra:Error Unable to generate an IRI for the item of type \"App\\Entity\\RainData\"
         return new JsonResponse([

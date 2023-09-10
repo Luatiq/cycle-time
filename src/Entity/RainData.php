@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     operations: [
         new Get(uriTemplate: '/get-rain/{location}', uriVariables: ['location'], requirements: ['location' => '\d+'], controller: 'App\Controller\RainDataController::getForLocation', read: false),
-        new Get(normalizationContext: ['groups' => ['rain_data:read']], read: true),
+        new Get(uriTemplate: '/rain-data/{id}', normalizationContext: ['groups' => ['rain_data:read']], read: true),
     ],
     normalizationContext: [
         'groups' => ['rain_data:read'],
