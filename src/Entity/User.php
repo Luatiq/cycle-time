@@ -58,9 +58,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'User', targetEntity: Location::class, orphanRemoval: true)]
     private Collection $locations;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Period::class, orphanRemoval: true)]
+    private Collection $periods;
+
     public function __construct()
     {
         $this->locations = new ArrayCollection();
+        $this->periods = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -161,6 +165,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($location->getUser() === $this) {
                 $location->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Period>
+     */
+    public function getPeriods(): Collection
+    {
+        return $this->periods;
+    }
+
+    public function addPeriod(Period $period): static
+    {
+        if (!$this->periods->contains($period)) {
+            $this->periods->add($period);
+            $period->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePeriod(Period $period): static
+    {
+        if ($this->periods->removeElement($period)) {
+            // set the owning side to null (unless already changed)
+            if ($period->getUser() === $this) {
+                $period->setUser(null);
             }
         }
 
