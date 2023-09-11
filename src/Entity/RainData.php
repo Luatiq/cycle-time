@@ -99,12 +99,12 @@ class RainData
         return $this;
     }
 
-    public function getPrecipitationInMillimetres(int $precipitation): string
+    public function getPrecipitationInMillimetres(): string
     {
-        if (0 === $precipitation) {
+        if (0 === $this->precipitationIntensity) {
             return '0 mm/uur';
         }
 
-        return 10 * (($precipitation - 109) / 32).' mm/uur';
+        return 10 * (($this->precipitationIntensity - 109) / 32).' mm/uur';
     }
 }
