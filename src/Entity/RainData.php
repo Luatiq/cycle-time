@@ -10,9 +10,6 @@ use Gedmo\Mapping\Annotation\Timestampable;
 #[ORM\Entity(repositoryClass: RainDataRepository::class)]
 class RainData
 {
-    // @TODO remove somehow, this is a hack to get RainData by unrelated location ID
-    public string $location = '';
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
