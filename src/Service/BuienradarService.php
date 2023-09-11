@@ -13,7 +13,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class BuienradarService
 {
-    const BASE_URL = 'https://gpsgadget.buienradar.nl';
+    public const BASE_URL = 'https://gpsgadget.buienradar.nl';
 
     private RainDataRepository $rainDataRepository;
     private HttpClientInterface $httpClient;
