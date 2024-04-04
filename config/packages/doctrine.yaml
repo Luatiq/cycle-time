@@ -20,7 +20,10 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App
-
+        # https://github.com/beberlei/DoctrineExtensions/blob/master/config/mysql.yml
+        dql:
+            datetime_functions:
+                subtime: DoctrineExtensions\Query\Mysql\SubTime
 when@test:
     doctrine:
         dbal:

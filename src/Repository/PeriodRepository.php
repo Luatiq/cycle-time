@@ -38,4 +38,16 @@ class PeriodRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    public function getRemindersDue(
+        \DateTime $start,
+    ): array {
+        return $this->createQueryBuilder('x')
+            ->andWhere('x.days IS NULL OR FIND_IN_SET(:day, x.days) > 0')
+            ->setParameter('day', (new \DateTime())->format('N'))
+            ->andWhere('SUBTIME(x.startTime, x.hoursBeforeStartWarning) >= :start OR SUBTIME(x.startTime, x.hoursBeforeStartWarning) <= :start')
+            ->setParameter(':start', $start)
+            ->getQuery()
+            ->getResult();
+    }
 }
