@@ -23,7 +23,9 @@ doctrine:
         # https://github.com/beberlei/DoctrineExtensions/blob/master/config/mysql.yml
         dql:
             datetime_functions:
-                subtime: DoctrineExtensions\Query\Mysql\SubTime
+                subtime: App\DQL\SubTime
+            string_functions:
+                find_in_set: DoctrineExtensions\Query\Mysql\FindInSet
 when@test:
     doctrine:
         dbal:
