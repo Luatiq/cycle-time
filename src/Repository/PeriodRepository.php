@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Period;
+use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -40,7 +41,7 @@ class PeriodRepository extends ServiceEntityRepository
     }
 
     public function getRemindersDue(
-        \DateTime $start,
+        \DateTime|DateTimeImmutable $start,
     ): array {
         return $this->createQueryBuilder('x')
             ->andWhere('x.days IS NULL OR FIND_IN_SET(:day, x.days) > 0')
